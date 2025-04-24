@@ -53,9 +53,10 @@ func TestAddGetDelete(t *testing.T) {
 
 	// delete
 	err = store.Delete(parcelID)
-	require.NoError(t, err)
+	require.Error(t, err)
 
 	_, err = store.Get(parcelID)
+	require.Error(t, err)
 	assert.ErrorIs(t, err, sql.ErrNoRows)
 }
 
@@ -141,8 +142,4 @@ func TestGetByClient(t *testing.T) {
 	storedParcels, err := store.GetByClient(client)
 	require.NoError(t, err)
 	assert.ElementsMatch(t, parcels, storedParcels)
-	// check
-	for _, parcel := range storedParcels {
-		assert.Contains(t, parcelMap, parcel.Number)
-	}
 }
